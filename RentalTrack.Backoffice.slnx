@@ -1,0 +1,6 @@
+<Solution>
+  <Project Path="src/RentalTrack.Backoffice/RentalTrack.Backoffice.csproj" />
+  <Project Path="src/RentalTrack.Business/RentalTrack.Business.csproj" />
+  <Project Path="src/RentalTrack.Data/RentalTrack.Data.csproj" />
+  <Project Path="src/RentalTrack.Utility/RentalTrack.Utility.csproj" />
+</Solution>

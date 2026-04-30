@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 220 56" width="220" height="56">
+  
+  <g transform="translate(8,10)">
+    <rect x="0" y="22" width="8" height="14" rx="2" fill="oklch(60% 0.13 156)"></rect>
+    <rect x="11" y="14" width="8" height="22" rx="2" fill="oklch(52% 0.13 156)"></rect>
+    <rect x="22" y="6" width="8" height="30" rx="2" fill="oklch(44% 0.12 156)"></rect>
+    <path d="M-2 12 L15 -1 L32 12" fill="none" stroke="oklch(28% 0.07 156)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"></path>
+  </g>
+  <text x="50" y="36" font-family="Plus Jakarta Sans, sans-serif" font-weight="700" font-size="22" fill="#0E1410" letter-spacing="-0.5">Rent<tspan fill="oklch(52% 0.13 156)">Track</tspan></text>
+</svg>

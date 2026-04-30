@@ -1,0 +1,264 @@
+/* =============================================================
+   RentTrack Design System — Foundations
+   colors_and_type.css
+
+   Drop-in stylesheet for any HTML artifact in the RentTrack brand.
+   Provides:
+     • Color tokens (light + dark)
+     • Type stack (Plus Jakarta Sans + JetBrains Mono)
+     • Spacing scale, radii, shadows
+     • Semantic typography (h1, h2, p, .label, .currency, etc.)
+     • Reset / sane defaults
+   ============================================================= */
+
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
+
+:root {
+  /* ── Brand greens ───────────────────────────────────────── */
+  --brand-50:  oklch(97% 0.03 156);
+  --brand-100: oklch(93% 0.05 156);
+  --brand-200: oklch(86% 0.08 156);
+  --brand-400: oklch(68% 0.12 156);
+  --brand-500: oklch(60% 0.13 156);
+  --brand-600: oklch(52% 0.13 156);   /* primary */
+  --brand-700: oklch(44% 0.12 156);
+  --brand-900: oklch(28% 0.07 156);
+
+  /* ── Surfaces (light) ───────────────────────────────────── */
+  --bg-1:  #FBFAF6;   /* page */
+  --bg-2:  #FFFFFF;   /* card */
+  --bg-3:  #F4F2EA;   /* sunken / muted panel */
+
+  /* ── Foregrounds ────────────────────────────────────────── */
+  --fg-1:  #0E1410;   /* primary text — oxford ink */
+  --fg-2:  #4A524C;   /* secondary */
+  --fg-3:  #8B928C;   /* tertiary / placeholder */
+  --fg-on-brand: #FFFFFF;
+
+  /* ── Lines ──────────────────────────────────────────────── */
+  --line-1: #E8E6DD;
+  --line-2: #D6D3C6;
+
+  /* ── Semantic ───────────────────────────────────────────── */
+  --success-50:  oklch(96% 0.04 152);
+  --success:     oklch(58% 0.14 152);
+  --success-700: oklch(42% 0.12 152);
+
+  --danger-50:   oklch(96% 0.03 25);
+  --danger:      oklch(57% 0.18 25);
+  --danger-700:  oklch(42% 0.16 25);
+
+  --warning-50:  oklch(96% 0.04 75);
+  --warning:     oklch(75% 0.14 75);
+  --warning-700: oklch(52% 0.12 75);
+
+  --info-50:     oklch(96% 0.03 235);
+  --info:        oklch(60% 0.10 235);
+  --info-700:    oklch(44% 0.10 235);
+
+  /* ── Type ───────────────────────────────────────────────── */
+  --font-sans: 'Plus Jakarta Sans', ui-sans-serif, system-ui, -apple-system, sans-serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, 'SF Mono', Menlo, monospace;
+
+  --text-display: 32px;
+  --text-h1: 22px;
+  --text-h2: 17px;
+  --text-body: 15px;
+  --text-label: 13px;
+  --text-tiny: 11px;
+
+  --leading-display: 38px;
+  --leading-h1: 28px;
+  --leading-h2: 24px;
+  --leading-body: 22px;
+  --leading-label: 18px;
+
+  /* ── Spacing (4-px base) ────────────────────────────────── */
+  --sp-1: 4px;
+  --sp-2: 8px;
+  --sp-3: 12px;
+  --sp-4: 16px;
+  --sp-5: 20px;
+  --sp-6: 24px;
+  --sp-8: 32px;
+  --sp-10: 40px;
+  --sp-14: 56px;
+
+  /* ── Radii ──────────────────────────────────────────────── */
+  --r-input: 10px;
+  --r-button: 10px;
+  --r-card: 14px;
+  --r-modal: 18px;
+  --r-pill: 999px;
+
+  /* ── Shadows ────────────────────────────────────────────── */
+  --shadow-sm: 0 1px 2px rgba(20, 24, 22, 0.04);
+  --shadow-md: 0 4px 14px -4px rgba(20, 24, 22, 0.10);
+  --shadow-lg: 0 16px 40px -12px rgba(20, 24, 22, 0.18);
+
+  /* ── Motion ─────────────────────────────────────────────── */
+  --ease-out: cubic-bezier(0.2, 0.7, 0.2, 1);
+  --d-fast: 120ms;
+  --d-base: 200ms;
+  --d-slow: 320ms;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg-1: #0E1410;
+    --bg-2: #161E18;
+    --bg-3: #1E2723;
+
+    --fg-1: #F1EFE6;
+    --fg-2: #B5BBB4;
+    --fg-3: #7B8079;
+
+    --line-1: #2A332D;
+    --line-2: #3B453E;
+
+    --brand-50: oklch(28% 0.05 156);
+    --brand-600: oklch(70% 0.14 156);
+
+    --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.30);
+    --shadow-md: 0 4px 14px -4px rgba(0, 0, 0, 0.50);
+    --shadow-lg: 0 16px 40px -12px rgba(0, 0, 0, 0.65);
+  }
+}
+
+/* ─────────────────────────────────────────────────────────────
+   Resets + base
+   ───────────────────────────────────────────────────────────── */
+
+*, *::before, *::after { box-sizing: border-box; }
+
+html, body {
+  margin: 0;
+  padding: 0;
+  background: var(--bg-1);
+  color: var(--fg-1);
+  font-family: var(--font-sans);
+  font-size: var(--text-body);
+  line-height: var(--leading-body);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+body {
+  font-feature-settings: 'ss01', 'cv11';
+}
+
+/* ─────────────────────────────────────────────────────────────
+   Typography — semantic
+   ───────────────────────────────────────────────────────────── */
+
+.display, h1.display {
+  font-size: var(--text-display);
+  line-height: var(--leading-display);
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  margin: 0;
+}
+
+h1, .h1 {
+  font-size: var(--text-h1);
+  line-height: var(--leading-h1);
+  font-weight: 600;
+  letter-spacing: -0.005em;
+  margin: 0;
+}
+
+h2, .h2 {
+  font-size: var(--text-h2);
+  line-height: var(--leading-h2);
+  font-weight: 600;
+  margin: 0;
+}
+
+p, .body {
+  font-size: var(--text-body);
+  line-height: var(--leading-body);
+  margin: 0;
+}
+
+.label {
+  font-size: var(--text-label);
+  line-height: var(--leading-label);
+  font-weight: 500;
+  color: var(--fg-2);
+  margin: 0;
+}
+
+.label-caps {
+  font-size: var(--text-label);
+  line-height: var(--leading-label);
+  font-weight: 600;
+  color: var(--fg-2);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  margin: 0;
+}
+
+.tiny {
+  font-size: var(--text-tiny);
+  line-height: 16px;
+  color: var(--fg-3);
+}
+
+/* Currency / tabular numerals */
+.currency, .tabular {
+  font-family: var(--font-mono);
+  font-variant-numeric: tabular-nums;
+  font-feature-settings: 'tnum';
+  font-weight: 500;
+}
+
+.currency-pos { color: var(--success-700); }
+.currency-neg { color: var(--danger-700); }
+
+/* Links */
+a {
+  color: var(--brand-700);
+  text-decoration: none;
+  transition: color var(--d-fast) var(--ease-out);
+}
+a:hover { color: var(--brand-600); text-decoration: underline; }
+
+/* Code (rare in product UI; keeps dev-doc legible) */
+code, kbd {
+  font-family: var(--font-mono);
+  font-size: 0.92em;
+  background: var(--bg-3);
+  border: 1px solid var(--line-1);
+  border-radius: 6px;
+  padding: 1px 5px;
+}
+
+/* ─────────────────────────────────────────────────────────────
+   Focus
+   ───────────────────────────────────────────────────────────── */
+
+:focus-visible {
+  outline: 2px solid var(--brand-600);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+/* ─────────────────────────────────────────────────────────────
+   Helpers
+   ───────────────────────────────────────────────────────────── */
+
+.surface {
+  background: var(--bg-2);
+  border: 1px solid var(--line-1);
+  border-radius: var(--r-card);
+}
+
+.muted { color: var(--fg-2); }
+.subtle { color: var(--fg-3); }
+
+.divider {
+  height: 1px;
+  background: var(--line-1);
+  border: 0;
+  margin: 0;
+}

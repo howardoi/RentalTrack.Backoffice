@@ -1,0 +1,78 @@
+@model RentalTrack.Business.Dtos.DashboardDto
+@{
+    ViewData["Title"] = "Dashboard";
+    string Money(decimal v) => "MYR " + v.ToString("N2", System.Globalization.CultureInfo.InvariantCulture);
+    string Number(int v)    => v.ToString("N0", System.Globalization.CultureInfo.InvariantCulture);
+}
+
+<h1>Dashboard</h1>
+<p class="subtitle">An overview of your platform.</p>
+
+<div class="stat-grid">
+    <div class="card stat-tile">
+        <div class="label">Total users</div>
+        <div class="value">@Number(Model.Stats.TotalUsers)</div>
+        <div class="delta">All-time accounts</div>
+    </div>
+    <div class="card stat-tile">
+        <div class="label">Active properties</div>
+        <div class="value">@Number(Model.Stats.ActiveProperties)</div>
+        <div class="delta">Excluding deleted</div>
+    </div>
+    <div class="card stat-tile">
+        <div class="label">Tracked monthly rent</div>
+        <div class="value">@Money(Model.Stats.TrackedMonthlyRent)</div>
+        <div class="delta">Sum of property rents</div>
+    </div>
+    <div class="card stat-tile">
+        <div class="label">Overdue rents</div>
+        <div class="value">@Number(Model.Stats.OverdueRentRows)</div>
+        <div class="delta">Past due, unpaid rows</div>
+    </div>
+</div>
+
+<div class="card" style="padding: 0;">
+    <div style="padding: var(--sp-5);">
+        <h2>Recent sign-ups</h2>
+        <p style="color: var(--fg-2); font-size: 13px; margin: -8px 0 0;">Click a row to open the user in the Users tab.</p>
+    </div>
+    <div class="table-shell" style="border: none; border-top: 1px solid var(--line-1); border-radius: 0;">
+        <table class="dt">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>Provider</th>
+                    <th>Joined</th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (Model.RecentSignUps.Count == 0)
+                {
+                    <tr><td colspan="4" style="text-align:center; color: var(--fg-3); padding: var(--sp-8) 0;">No sign-ups yet.</td></tr>
+                }
+                else
+                {
+                    foreach (var u in Model.RecentSignUps)
+                    {
+                        <tr onclick="location.href='/Users?focus=@u.Id'">
+                            <td>@u.DisplayName</td>
+                            <td class="mono">@u.Email</td>
+                            <td>
+                                @if (!string.IsNullOrEmpty(u.Provider))
+                                {
+                                    <span class="pill brand">@u.Provider</span>
+                                }
+                                else
+                                {
+                                    <span class="pill">—</span>
+                                }
+                            </td>
+                            <td class="mono">@u.CreatedAt.ToLocalTime().ToString("dd/MM/yyyy")</td>
+                        </tr>
+                    }
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

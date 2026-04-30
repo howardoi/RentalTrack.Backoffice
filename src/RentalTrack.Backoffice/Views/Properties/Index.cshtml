@@ -1,0 +1,156 @@
+@{
+    ViewData["Title"] = "Properties";
+}
+
+<div id="propertiesApp">
+    <h1>Properties</h1>
+    <p class="subtitle">All rental properties tracked across the platform.</p>
+
+    <div class="card" style="padding: 0;">
+        <div class="toolbar">
+            <input type="search" v-model="q" @@input="debouncedSearch" placeholder="Search by name, address or tenant" class="search" />
+            <select v-model="status" @@change="reload">
+                <option value="">All</option>
+                <option value="tenanted">Tenanted</option>
+                <option value="vacant">Vacant</option>
+            </select>
+            <span class="spacer"></span>
+            <span class="muted" v-if="total > 0">{{ rangeStart }}–{{ rangeEnd }} of {{ total }}</span>
+        </div>
+
+        <div class="table-shell" style="border: none; border-top: 1px solid var(--line-1); border-radius: 0;">
+            <table class="dt">
+                <thead>
+                    <tr>
+                        <th>Property</th>
+                        <th>Owner</th>
+                        <th>Tenant</th>
+                        <th>Monthly rent</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr v-if="loading">
+                        <td colspan="5" style="text-align:center; color: var(--fg-3); padding: var(--sp-8) 0;">Loading…</td>
+                    </tr>
+                    <tr v-else-if="items.length === 0">
+                        <td colspan="5" style="text-align:center; color: var(--fg-3); padding: var(--sp-8) 0;">No properties match your filters.</td>
+                    </tr>
+                    <tr v-else v-for="p in items" :key="p.id" @@click="openDetail(p.id)" style="cursor: pointer;">
+                        <td>
+                            <div style="font-weight: 500;">{{ p.name }}</div>
+                            <div class="muted" style="font-size: 12px;">{{ p.address }}</div>
+                        </td>
+                        <td>{{ p.ownerName }}</td>
+                        <td>{{ p.tenantName || '—' }}</td>
+                        <td class="mono">{{ formatMoney(p.monthlyRentalAmount) }}</td>
+                        <td>
+                            <span v-if="p.tenantName" class="pill success">Tenanted</span>
+                            <span v-else class="pill warning">Vacant</span>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="pagination">
+            <button class="btn secondary" :disabled="page <= 1" @@click="prev">Prev</button>
+            <span class="muted">Page {{ page }} / {{ totalPages }}</span>
+            <button class="btn secondary" :disabled="page >= totalPages" @@click="next">Next</button>
+        </div>
+    </div>
+
+    <transition name="fade">
+        <div v-if="detail" class="drawer-scrim" @@click.self="closeDetail">
+            <aside class="drawer inspector">
+                <header class="drawer-head">
+                    <div>
+                        <div class="drawer-title">{{ detail.name }}</div>
+                        <div class="drawer-sub">{{ detail.address }}</div>
+                    </div>
+                    <button class="btn secondary" @@click="closeDetail">Close</button>
+                </header>
+
+                <section class="drawer-body">
+                    <h3>Property</h3>
+                    <dl class="kv-list">
+                        <dt>Owner</dt>
+                        <dd>{{ detail.ownerName }} <span class="mono muted">({{ detail.ownerEmail }})</span></dd>
+                        <dt>Monthly rent</dt>
+                        <dd class="mono">{{ formatMoney(detail.monthlyRentalAmount) }}</dd>
+                        <dt>Tenant</dt>
+                        <dd>{{ detail.tenantName || '—' }}</dd>
+                        <dt>Tenancy start</dt>
+                        <dd class="mono">{{ formatDate(detail.tenancyStartDate) }}</dd>
+                        <dt><em>Cukai Taksiran</em> due</dt>
+                        <dd class="mono">{{ formatDate(detail.cukaiTaksiranDueDate) }}</dd>
+                        <dt>Created</dt>
+                        <dd class="mono">{{ formatDate(detail.createdAt) }}</dd>
+                    </dl>
+                </section>
+            </aside>
+        </div>
+    </transition>
+</div>
+
+@section Scripts {
+    <script>
+        (function () {
+            const app = Vue.createApp({
+                data() {
+                    return {
+                        items: [], total: 0, page: 1, pageSize: 25,
+                        q: '', status: '',
+                        loading: false, detail: null,
+                        debounceHandle: null
+                    };
+                },
+                computed: {
+                    totalPages() { return Math.max(1, Math.ceil(this.total / this.pageSize)); },
+                    rangeStart() { return this.total === 0 ? 0 : (this.page - 1) * this.pageSize + 1; },
+                    rangeEnd() { return Math.min(this.total, this.page * this.pageSize); }
+                },
+                methods: {
+                    async reload() {
+                        this.loading = true;
+                        try {
+                            const params = new URLSearchParams({
+                                q: this.q, status: this.status,
+                                page: this.page, pageSize: this.pageSize
+                            });
+                            const res = await fetch('/Properties/Search?' + params);
+                            const data = await res.json();
+                            this.items = data.items;
+                            this.total = data.total;
+                        } finally {
+                            this.loading = false;
+                        }
+                    },
+                    debouncedSearch() {
+                        clearTimeout(this.debounceHandle);
+                        this.debounceHandle = setTimeout(() => { this.page = 1; this.reload(); }, 250);
+                    },
+                    prev() { if (this.page > 1) { this.page--; this.reload(); } },
+                    next() { if (this.page < this.totalPages) { this.page++; this.reload(); } },
+                    async openDetail(id) {
+                        const res = await fetch('/Properties/Detail/' + id);
+                        if (!res.ok) return;
+                        this.detail = await res.json();
+                    },
+                    closeDetail() { this.detail = null; },
+                    formatDate(s) {
+                        if (!s) return '—';
+                        const d = new Date(s);
+                        return String(d.getDate()).padStart(2,'0') + '/' + String(d.getMonth()+1).padStart(2,'0') + '/' + d.getFullYear();
+                    },
+                    formatMoney(v) {
+                        if (v == null) return '—';
+                        return 'MYR ' + Number(v).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+                    }
+                },
+                mounted() { this.reload(); }
+            });
+            app.mount('#propertiesApp');
+        })();
+    </script>
+}

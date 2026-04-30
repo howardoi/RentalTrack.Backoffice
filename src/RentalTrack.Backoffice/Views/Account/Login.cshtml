@@ -1,0 +1,39 @@
+@model RentalTrack.Backoffice.Models.LoginViewModel
+@{
+    ViewData["Title"] = "Sign in";
+    Layout = "_LoginLayout";
+}
+
+<div class="login-card">
+    <div class="brand">
+        <img src="~/img/logo-glyph.svg" alt="" />
+        <span class="wordmark" style="font-size:17px;font-weight:600;">RentTrack admin</span>
+    </div>
+
+    <h1>Sign in</h1>
+    <p class="lead">Use your administrator account to continue.</p>
+
+    @if (!string.IsNullOrEmpty(Model.ErrorMessage))
+    {
+        <div class="alert">@Model.ErrorMessage</div>
+    }
+
+    <form method="post" asp-action="Login" autocomplete="off">
+        @Html.AntiForgeryToken()
+        <input type="hidden" asp-for="ReturnUrl" />
+
+        <div class="field">
+            <label asp-for="Email">Email</label>
+            <input asp-for="Email" autocomplete="username" placeholder="you@renttrack" />
+            <span asp-validation-for="Email" style="color: var(--danger-700); font-size: 12px;"></span>
+        </div>
+
+        <div class="field">
+            <label asp-for="Password">Password</label>
+            <input asp-for="Password" autocomplete="current-password" />
+            <span asp-validation-for="Password" style="color: var(--danger-700); font-size: 12px;"></span>
+        </div>
+
+        <button class="btn" type="submit" style="width:100%; margin-top: var(--sp-2);">Sign in</button>
+    </form>
+</div>

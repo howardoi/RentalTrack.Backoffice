@@ -1,0 +1,607 @@
+/* RentalTrack admin shell — built on tokens from colors_and_type.css */
+
+* { box-sizing: border-box; }
+
+html, body {
+    margin: 0;
+    padding: 0;
+    background: var(--bg-1);
+    color: var(--fg-1);
+    font-family: var(--font-sans);
+    font-size: 15px;
+    line-height: 22px;
+}
+
+a { color: var(--brand-700); text-decoration: none; }
+a:hover { color: var(--brand-600); }
+
+/* ---------- Top bar ---------- */
+.top-bar {
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    height: 60px;
+    display: flex;
+    align-items: center;
+    gap: var(--sp-6);
+    padding: 0 var(--sp-6);
+    background: var(--bg-2);
+    border-bottom: 1px solid var(--line-1);
+}
+
+.top-bar .brand {
+    display: flex;
+    align-items: center;
+    gap: var(--sp-2);
+    font-weight: 600;
+    color: var(--fg-1);
+}
+
+.top-bar .brand img { height: 28px; width: auto; }
+.top-bar .brand .wordmark { font-size: 17px; letter-spacing: -0.01em; }
+
+.top-bar .tabs {
+    display: flex;
+    gap: var(--sp-1);
+    margin-left: var(--sp-6);
+}
+
+.top-bar .tabs a {
+    padding: 8px 14px;
+    border-radius: 8px;
+    color: var(--fg-2);
+    font-weight: 500;
+    transition: background-color 120ms var(--ease-out), color 120ms var(--ease-out);
+}
+
+.top-bar .tabs a:hover {
+    background: var(--brand-50);
+    color: var(--fg-1);
+}
+
+.top-bar .tabs a.active {
+    background: var(--brand-50);
+    color: var(--brand-700);
+    font-weight: 600;
+}
+
+.top-bar .user {
+    margin-left: auto;
+    display: flex;
+    align-items: center;
+    gap: var(--sp-3);
+    font-size: 13px;
+    color: var(--fg-2);
+}
+
+.top-bar .user .avatar {
+    width: 32px;
+    height: 32px;
+    border-radius: 999px;
+    background: var(--brand-100);
+    color: var(--brand-700);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 600;
+    font-size: 13px;
+}
+
+/* ---------- Page shell ---------- */
+.page {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: var(--sp-6) var(--sp-6) var(--sp-10);
+}
+
+.page h1 {
+    font-size: 22px;
+    line-height: 28px;
+    font-weight: 600;
+    margin: 0 0 var(--sp-4);
+}
+
+.page .subtitle {
+    font-size: 13px;
+    color: var(--fg-2);
+    margin: -8px 0 var(--sp-6);
+}
+
+/* ---------- Cards ---------- */
+.card {
+    background: var(--bg-2);
+    border: 1px solid var(--line-1);
+    border-radius: var(--r-card);
+    padding: var(--sp-5);
+    box-shadow: var(--shadow-sm);
+}
+
+.card h2 {
+    font-size: 17px;
+    line-height: 24px;
+    font-weight: 600;
+    margin: 0 0 var(--sp-4);
+}
+
+/* ---------- Stat tiles ---------- */
+.stat-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: var(--sp-4);
+    margin-bottom: var(--sp-6);
+}
+
+.stat-tile { padding: var(--sp-5); }
+
+.stat-tile .label {
+    font-size: 11px;
+    line-height: 16px;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    font-weight: 600;
+    color: var(--fg-2);
+}
+
+.stat-tile .value {
+    font-family: var(--font-mono);
+    font-feature-settings: 'tnum' 1;
+    font-size: 28px;
+    line-height: 34px;
+    font-weight: 600;
+    margin-top: var(--sp-2);
+    color: var(--fg-1);
+}
+
+.stat-tile .delta {
+    font-size: 11px;
+    color: var(--fg-3);
+    margin-top: var(--sp-1);
+}
+
+/* ---------- Tables ---------- */
+.table-shell {
+    background: var(--bg-2);
+    border: 1px solid var(--line-1);
+    border-radius: var(--r-card);
+    overflow: hidden;
+}
+
+.toolbar {
+    display: flex;
+    align-items: center;
+    gap: var(--sp-3);
+    padding: var(--sp-4) var(--sp-5);
+    border-bottom: 1px solid var(--line-1);
+    background: var(--bg-2);
+}
+
+.toolbar input[type="text"],
+.toolbar input[type="search"],
+.toolbar select {
+    height: 34px;
+    border: 1px solid var(--line-1);
+    background: var(--bg-2);
+    border-radius: var(--r-input);
+    padding: 0 var(--sp-3);
+    font: inherit;
+    color: var(--fg-1);
+    outline: none;
+}
+
+.toolbar input[type="text"]:focus,
+.toolbar input[type="search"]:focus,
+.toolbar select:focus {
+    border-color: var(--brand-600);
+    box-shadow: 0 0 0 2px var(--brand-100);
+}
+
+table.dt {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 14px;
+}
+
+table.dt thead th {
+    background: var(--bg-3);
+    color: var(--fg-2);
+    font-size: 11px;
+    line-height: 16px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    text-align: left;
+    padding: 10px 18px;
+    border-bottom: 1px solid var(--line-1);
+}
+
+table.dt tbody td {
+    padding: 12px 18px;
+    border-bottom: 1px solid var(--line-1);
+    color: var(--fg-1);
+    vertical-align: middle;
+}
+
+table.dt tbody tr { cursor: pointer; transition: background-color 120ms var(--ease-out); }
+table.dt tbody tr:hover { background: var(--bg-3); }
+table.dt tbody tr.is-selected { background: var(--brand-50); }
+table.dt tbody tr.is-selected:hover { background: var(--brand-100); }
+
+td.mono { font-family: var(--font-mono); font-feature-settings: 'tnum' 1; }
+
+/* ---------- Pagination ---------- */
+.pagination {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 12px 18px;
+    background: var(--bg-2);
+    border-top: 1px solid var(--line-1);
+    font-size: 13px;
+    color: var(--fg-2);
+}
+
+.pagination .nav {
+    display: flex;
+    align-items: center;
+    gap: var(--sp-2);
+}
+
+.pagination button {
+    height: 30px;
+    padding: 0 12px;
+    background: var(--bg-2);
+    border: 1px solid var(--line-1);
+    border-radius: var(--r-input);
+    color: var(--fg-1);
+    cursor: pointer;
+    font: inherit;
+    transition: background-color 120ms var(--ease-out);
+}
+
+.pagination button:hover:not(:disabled) { background: var(--bg-3); }
+.pagination button:disabled { opacity: 0.4; cursor: not-allowed; }
+
+/* ---------- Pills ---------- */
+.pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    padding: 2px 10px;
+    border-radius: var(--r-pill);
+    font-size: 11px;
+    line-height: 16px;
+    font-weight: 600;
+    background: var(--bg-3);
+    color: var(--fg-2);
+}
+
+.pill.brand   { background: var(--brand-50);    color: var(--brand-700); }
+.pill.success { background: var(--success-50); color: var(--success-700); }
+.pill.danger  { background: var(--danger-50);  color: var(--danger-700); }
+.pill.warning { background: var(--warning-50); color: var(--warning-700); }
+.pill.info    { background: var(--info-50);    color: var(--info-700); }
+
+/* ---------- Buttons ---------- */
+.btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    height: 36px;
+    padding: 0 16px;
+    border-radius: var(--r-input);
+    border: 1px solid transparent;
+    background: var(--brand-600);
+    color: var(--fg-on-brand);
+    font: inherit;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background-color 120ms var(--ease-out);
+}
+
+.btn:hover  { background: var(--brand-500); }
+.btn:active { transform: scale(0.98); }
+.btn:focus-visible { outline: 2px solid var(--brand-600); outline-offset: 2px; }
+
+.btn.secondary {
+    background: var(--bg-2);
+    color: var(--fg-1);
+    border-color: var(--line-1);
+}
+.btn.secondary:hover { background: var(--bg-3); }
+
+.btn.danger { background: var(--danger); }
+
+/* ---------- Drawer / Inspector ---------- */
+.drawer-scrim {
+    position: fixed;
+    inset: 0;
+    background: rgba(14, 20, 16, 0.30);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 200ms var(--ease-out);
+    z-index: 60;
+}
+
+.drawer-scrim.open { opacity: 1; pointer-events: auto; }
+
+.drawer {
+    position: fixed;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    width: 480px;
+    max-width: 96vw;
+    background: var(--bg-2);
+    border-left: 1px solid var(--line-1);
+    box-shadow: var(--shadow-lg);
+    transform: translateX(100%);
+    transition: transform 320ms var(--ease-out);
+    z-index: 70;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+.drawer.inspector { width: 420px; }
+.drawer.open { transform: translateX(0); }
+
+.drawer header {
+    padding: var(--sp-5);
+    border-bottom: 1px solid var(--line-1);
+    display: flex;
+    align-items: center;
+    gap: var(--sp-3);
+}
+
+.drawer header .title { font-size: 17px; font-weight: 600; }
+
+.drawer header .close {
+    margin-left: auto;
+    height: 32px; width: 32px;
+    display: inline-flex; align-items: center; justify-content: center;
+    border: 1px solid var(--line-1); background: var(--bg-2);
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+.drawer header .close:hover { background: var(--bg-3); }
+
+.drawer .body {
+    overflow-y: auto;
+    padding: var(--sp-5);
+    flex: 1;
+}
+
+.drawer .actions {
+    padding: var(--sp-4) var(--sp-5);
+    border-top: 1px solid var(--line-1);
+    display: flex;
+    gap: var(--sp-2);
+    background: var(--bg-1);
+}
+
+/* Property list inside drawer */
+.kv-list { display: grid; grid-template-columns: 140px 1fr; gap: var(--sp-2) var(--sp-4); }
+.kv-list .k { color: var(--fg-2); font-size: 13px; }
+.kv-list .v { color: var(--fg-1); font-size: 14px; }
+
+/* ---------- Log table ---------- */
+.log-shell {
+    background: var(--bg-2);
+    border: 1px solid var(--line-1);
+    border-radius: var(--r-card);
+    overflow: hidden;
+}
+
+.log-row {
+    display: grid;
+    grid-template-columns: 100px 70px 200px 1fr 140px;
+    gap: var(--sp-3);
+    padding: 8px 16px;
+    border-bottom: 1px solid var(--line-1);
+    font-family: var(--font-mono);
+    font-size: 12px;
+    line-height: 16px;
+    color: var(--fg-1);
+    align-items: center;
+}
+
+.log-row.head {
+    background: var(--bg-3);
+    color: var(--fg-2);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+}
+
+.log-level {
+    display: inline-flex;
+    justify-content: center;
+    padding: 2px 8px;
+    border-radius: var(--r-pill);
+    font-size: 10px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+}
+
+.log-level.info  { background: var(--info-50);    color: var(--info-700); }
+.log-level.warn  { background: var(--warning-50); color: var(--warning-700); }
+.log-level.error { background: var(--danger-50);  color: var(--danger-700); }
+
+.live-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 999px;
+    background: var(--fg-3);
+    display: inline-block;
+    margin-right: 6px;
+}
+
+.live-dot.on {
+    background: var(--success);
+    animation: livePulse 1.5s var(--ease-out) infinite;
+}
+
+@keyframes livePulse {
+    0%, 100% { box-shadow: 0 0 0 0 rgba(36, 153, 91, 0.5); }
+    50%      { box-shadow: 0 0 0 6px rgba(36, 153, 91, 0); }
+}
+
+/* ---------- Login page ---------- */
+.login-page {
+    min-height: 100vh;
+    display: grid;
+    place-items: center;
+    background: linear-gradient(180deg, var(--brand-50) 0%, var(--bg-1) 60%);
+    padding: var(--sp-6);
+}
+
+.login-card {
+    width: 380px;
+    background: var(--bg-2);
+    border: 1px solid var(--line-1);
+    border-radius: var(--r-modal);
+    padding: var(--sp-8);
+    box-shadow: var(--shadow-lg);
+}
+
+.login-card .brand {
+    display: flex; align-items: center; gap: 10px;
+    margin-bottom: var(--sp-6);
+}
+.login-card .brand img { height: 28px; }
+.login-card h1 { font-size: 22px; font-weight: 600; margin: 0 0 var(--sp-1); }
+.login-card .lead { color: var(--fg-2); font-size: 14px; margin: 0 0 var(--sp-6); }
+
+.field { margin-bottom: var(--sp-4); }
+.field label {
+    display: block;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    font-weight: 600;
+    color: var(--fg-2);
+    margin-bottom: 6px;
+}
+.field input {
+    width: 100%;
+    height: 40px;
+    padding: 0 12px;
+    border: 1px solid var(--line-1);
+    border-radius: var(--r-input);
+    background: var(--bg-2);
+    color: var(--fg-1);
+    font: inherit;
+    outline: none;
+}
+.field input:focus {
+    border-color: var(--brand-600);
+    box-shadow: 0 0 0 2px var(--brand-100);
+}
+
+.alert {
+    background: var(--danger-50);
+    color: var(--danger-700);
+    padding: 10px 12px;
+    border-radius: var(--r-input);
+    font-size: 13px;
+    margin-bottom: var(--sp-4);
+}
+
+/* ---------- Utilities ---------- */
+.muted { color: var(--fg-3); }
+.spacer { flex: 1; }
+.toolbar .search { min-width: 280px; }
+
+/* ---------- Drawer (named parts) ---------- */
+.drawer-scrim {
+    /* When rendered conditionally by Vue (no .open toggle), make it visible by default */
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.drawer {
+    /* Same: when present in DOM via v-if, show fully */
+    transform: translateX(0);
+}
+
+.drawer-head {
+    padding: var(--sp-5);
+    border-bottom: 1px solid var(--line-1);
+    display: flex;
+    align-items: center;
+    gap: var(--sp-3);
+}
+
+.drawer-head .drawer-title { font-size: 17px; font-weight: 600; color: var(--fg-1); }
+.drawer-head .drawer-sub   { font-size: 13px; color: var(--fg-2); margin-top: 2px; }
+.drawer-head .btn          { margin-left: auto; }
+
+.drawer-body {
+    overflow-y: auto;
+    padding: var(--sp-5);
+    flex: 1;
+}
+
+.drawer-body h3 {
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--fg-2);
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    margin: 0 0 var(--sp-3);
+}
+
+.drawer-foot {
+    padding: var(--sp-4) var(--sp-5);
+    border-top: 1px solid var(--line-1);
+    display: flex;
+    gap: var(--sp-2);
+    background: var(--bg-1);
+}
+
+/* dt/dd variant of kv-list */
+.kv-list dt {
+    color: var(--fg-2);
+    font-size: 13px;
+}
+.kv-list dd {
+    color: var(--fg-1);
+    font-size: 14px;
+    margin: 0;
+}
+
+/* ---------- Log additions ---------- */
+.log-row.log-head {
+    background: var(--bg-3);
+    color: var(--fg-2);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+}
+
+.log-empty {
+    padding: var(--sp-8) var(--sp-5);
+    text-align: center;
+    color: var(--fg-3);
+    font-size: 13px;
+}
+
+.live-toggle {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    color: var(--fg-2);
+    font-size: 13px;
+    cursor: pointer;
+}
+
+.live-toggle input[type="checkbox"] {
+    accent-color: var(--brand-600);
+}
+
+/* Vue fade transition for drawer */
+.fade-enter-active, .fade-leave-active { transition: opacity 200ms var(--ease-out); }
+.fade-enter-from, .fade-leave-to { opacity: 0; }

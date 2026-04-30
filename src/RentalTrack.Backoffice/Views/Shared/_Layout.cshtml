@@ -1,0 +1,48 @@
+@{
+    var currentController = (string?)ViewContext.RouteData.Values["controller"] ?? "Dashboard";
+    string TabClass(string c) => string.Equals(currentController, c, StringComparison.OrdinalIgnoreCase) ? "active" : "";
+    var adminEmail = User.Identity?.IsAuthenticated == true ? User.Identity.Name : "guest@renttrack";
+    var adminInitial = !string.IsNullOrWhiteSpace(adminEmail) ? adminEmail!.Substring(0, 1).ToUpperInvariant() : "?";
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>@ViewData["Title"] · RentTrack admin</title>
+    <link rel="icon" type="image/svg+xml" href="~/img/logo-glyph.svg" />
+    <link rel="stylesheet" href="~/css/colors_and_type.css" />
+    <link rel="stylesheet" href="~/css/admin.css" />
+</head>
+<body>
+    <header class="top-bar">
+        <a class="brand" href="/">
+            <img src="~/img/logo-glyph.svg" alt="" />
+            <span class="wordmark">RentTrack admin</span>
+        </a>
+        <nav class="tabs">
+            <a class="@TabClass("Dashboard")"  href="/Dashboard">Dashboard</a>
+            <a class="@TabClass("Users")"      href="/Users">Users</a>
+            <a class="@TabClass("Properties")" href="/Properties">Properties</a>
+            <a class="@TabClass("Logs")"       href="/Logs">Logs</a>
+        </nav>
+        <div class="user">
+            <span>@adminEmail</span>
+            <span class="avatar">@adminInitial</span>
+            <form method="post" action="/Account/Logout" style="margin:0;">
+                @Html.AntiForgeryToken()
+                <button class="btn secondary" type="submit" style="height:32px;padding:0 12px;">Sign out</button>
+            </form>
+        </div>
+    </header>
+
+    <main class="page">
+        @RenderBody()
+    </main>
+
+    <script src="https://unpkg.com/vue@3/dist/vue.global.prod.js"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+    <script>if (window.lucide) lucide.createIcons();</script>
+</body>
+</html>
