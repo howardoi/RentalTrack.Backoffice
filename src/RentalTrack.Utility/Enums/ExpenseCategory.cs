@@ -6,5 +6,6 @@ public enum ExpenseCategory : byte
     CukaiTaksiran  = 2,
     Repair         = 3,
     Insurance      = 4,
-    Other          = 5
+    Other          = 5,
+    Loan           = 6
 }
