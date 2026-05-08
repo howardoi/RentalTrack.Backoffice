@@ -49,6 +49,7 @@ public class PropertyService : IPropertyService
             MonthlyRentalAmount  = p.MonthlyRentalAmount,
             TenantName           = p.TenantName,
             TenancyStartDate     = p.TenancyStartDate,
+            TenancyEndDate       = p.TenancyEndDate,
             CukaiTaksiranDueDate = p.CukaiTaksiranDueDate,
             CreatedAt            = p.CreatedAt,
             OwnerEmail           = p.OwnerEmail,

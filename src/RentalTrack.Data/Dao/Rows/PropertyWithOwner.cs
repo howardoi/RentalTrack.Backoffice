@@ -8,6 +8,7 @@ public class PropertyWithOwner
     public decimal MonthlyRentalAmount { get; set; }
     public string? TenantName { get; set; }
     public DateTime? TenancyStartDate { get; set; }
+    public DateTime? TenancyEndDate { get; set; }
     public DateTime? CukaiTaksiranDueDate { get; set; }
     public DateTime CreatedAt { get; set; }
     public string OwnerEmail { get; set; } = string.Empty;

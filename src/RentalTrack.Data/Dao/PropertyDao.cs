@@ -53,7 +53,8 @@ SELECT COUNT(*) {baseSql};";
         return await conn.QuerySingleOrDefaultAsync<PropertyWithOwner>(
             @"SELECT
                   p.Id, p.Name, p.Address, p.MonthlyRentalAmount,
-                  p.TenantName, p.TenancyStartDate, p.CukaiTaksiranDueDate, p.CreatedAt,
+                  p.TenantName, p.TenancyStartDate, p.TenancyEndDate,
+                  p.CukaiTaksiranDueDate, p.CreatedAt,
                   u.Email AS OwnerEmail, u.DisplayName AS OwnerDisplayName
               FROM dbo.Property p
               INNER JOIN dbo.[User] u ON u.Id = p.UserId
